@@ -7,9 +7,9 @@ Dự án ứng dụng di động học tiếng Anh xây dựng bằng Flutter. �
 | STT | Họ và Tên | MSSV | Vai trò | Nhiệm vụ đảm nhận (Theo Checklist) |
 | :--- | :--- | :--- | :--- | :--- |
 | 1 | **Lục Văn Thuận** | 2351170624 | Nhóm trưởng | **(1)** Thiết kế cơ sở dữ liệu (SQLite/Floor).<br>**(7)** Quản lý chất lượng, kiểm thử đa thiết bị, giọng nói. |
-| 2 | **Nguyễn Khắc Minh Hiếu** | 225116000 | Thành viên | **(3)** Tích hợp API Speech Recognition (thu âm, xử lý giọng nói).<br>**(4)** Xử lý logic AI/thuật toán so sánh âm vị và tính điểm. |
+| 2 | **Hoàng Tùng** | 2351170630 | Thành viên | **(3)** Tích hợp API Speech Recognition (thu âm, xử lý giọng nói).<br>**(4)** Xử lý logic AI/thuật toán so sánh âm vị và tính điểm. |
 | 3 | **Trần Văn Hồng Quân** | 2351170613 | Thành viên | **(5)** Xây dựng module phản hồi UI/UX (hiển thị màu sắc từ sai, gợi ý IPA, phát lại âm thanh). |
-| 4 | **Hoàng Tùng** | 2351170630 | Thành viên | **(2)** Xây dựng logic theo dõi tiến độ (tính toán streak, biểu đồ thời gian).<br>**(6)** Tạo hệ thống Push Notification & UI màn hình thống kê. |
+| 4 | **Nguyễn Khắc Minh Hiếu** | 225116000 | Thành viên | **(2)** Xây dựng logic theo dõi tiến độ (tính toán streak, biểu đồ thời gian).<br>**(6)** Tạo hệ thống Push Notification & UI màn hình thống kê. |
 
 ---
 
