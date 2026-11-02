@@ -28,7 +28,7 @@ dependencies:
 
   # Audio & Speech
   speech_to_text: ^7.0.0
-  record: ^5.2.0
+  record: 7.1.2
   just_audio: ^0.9.43
 
   # Notifications
@@ -40,6 +40,8 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.3.5
   path_provider: ^2.1.5
+  dio: ^5.11.1
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:

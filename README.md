@@ -13,6 +13,20 @@ Dự án ứng dụng di động học tiếng Anh xây dựng bằng Flutter. �
 
 ---
 
+## 🎙️ Chạy tính năng chấm phát âm
+
+App gửi bản ghi tới dịch vụ AI trong thư mục `ai_server/`, nên cần chạy dịch vụ này trước (Node.js 22.13 trở lên):
+
+```bash
+cd ai_server
+npm install
+npm start
+```
+
+App mặc định gọi `http://10.0.2.2:8787`, tức máy tính chủ khi chạy trên máy ảo Android. Với điện thoại thật, xem hướng dẫn trong [`ai_server/docs/ai-module.md`](ai_server/docs/ai-module.md).
+
+---
+
 ## 📁 Cấu trúc thư mục (Clean Architecture)
 
 Dự án áp dụng mô hình Clean Architecture để dễ dàng mở rộng và phân chia công việc cho nhiều người.

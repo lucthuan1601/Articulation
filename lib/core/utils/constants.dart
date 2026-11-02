@@ -10,6 +10,19 @@ class AppConstants {
   static const String dbName = 'articulation.db';
   static const int dbVersion = 1;
 
+  // ── AI Server ───────────────────────────────────────────────────
+  /// Địa chỉ dịch vụ AI. Mặc định là máy tính chủ khi chạy trên máy ảo Android.
+  /// Điện thoại thật: `flutter run --dart-define=AI_SERVER_URL=http://<ip-máy-tính>:8787`
+  static const String aiServerUrl = String.fromEnvironment(
+    'AI_SERVER_URL',
+    defaultValue: 'http://10.0.2.2:8787',
+  );
+
+  // ── Recording ───────────────────────────────────────────────────
+  /// Giới hạn của dịch vụ AI là 30 giây, dừng sớm hơn để không bị từ chối.
+  static const int maxRecordingSeconds = 29;
+  static const int recordingSampleRate = 16000;
+
   // ── Default Values ──────────────────────────────────────────────
   static const int defaultDailyGoalMinutes = 15;
   static const String defaultNotificationTime = '08:00';
