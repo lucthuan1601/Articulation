@@ -7,6 +7,7 @@ import 'package:articulation/features/habit_tracking/domain/repositories/user_re
 import 'package:articulation/features/pronunciation/domain/repositories/lesson_repository.dart';
 import 'package:articulation/features/pronunciation/domain/entities/lesson.dart';
 import 'package:articulation/features/habit_tracking/domain/entities/user.dart';
+import 'package:articulation/features/pronunciation/presentation/screens/practice_screen.dart';
 
 /// Điểm khởi đầu của ứng dụng Articulation
 void main() async {
@@ -312,6 +313,14 @@ class _DatabaseOverviewScreenState extends State<DatabaseOverviewScreen> {
                     return Card(
                       margin: const EdgeInsets.only(bottom: 8),
                       child: ListTile(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => PracticeScreen(
+                              lesson: lesson,
+                              userId: _currentUser!.id,
+                            ),
+                          ),
+                        ),
                         leading: CircleAvatar(
                           backgroundColor: lesson.type == LessonType.word
                               ? AppColors.primarySurface

@@ -41,6 +41,10 @@ class PhonemeDetail {
   /// Null nếu phát âm đã đúng và không cần gợi ý.
   final String? suggestion;
 
+  /// Chi tiết từng âm vị trong từ, dạng JSON của `PhonemeDetail` tầng domain.
+  /// Rỗng với dữ liệu cũ chỉ có thông tin theo từ.
+  final List<Map<String, dynamic>> phonemes;
+
   /// Tạo mới một [PhonemeDetail].
   const PhonemeDetail({
     required this.word,
@@ -49,6 +53,7 @@ class PhonemeDetail {
     required this.correctIpa,
     required this.score,
     this.suggestion,
+    this.phonemes = const [],
   });
 
   /// Tạo [PhonemeDetail] từ một [Map] JSON.
@@ -72,6 +77,8 @@ class PhonemeDetail {
       correctIpa: json['correctIpa'] as String,
       score: (json['score'] as num).toDouble(),
       suggestion: json['suggestion'] as String?,
+      phonemes: (json['phonemes'] as List<dynamic>? ?? const [])
+          .cast<Map<String, dynamic>>(),
     );
   }
 
@@ -84,6 +91,7 @@ class PhonemeDetail {
       'correctIpa': correctIpa,
       'score': score,
       'suggestion': suggestion,
+      'phonemes': phonemes,
     };
   }
 
