@@ -22,14 +22,14 @@ lib/
 ├── core/                   # Cấu hình chung: Network (Dio), Theme, Utils, Error handling
 ├── di/                     # Dependency Injection setup (GetIt, Injectable)
 ├── features/               # Các tính năng chính của ứng dụng
-│   ├── habit_tracking/     # Do Hoàng Tùng đảm nhận (Logic Streak, Notifications)
+│   ├── habit_tracking/     # (Logic Streak, Notifications)
 │   │   ├── data/           # Models, Floor DAO
 │   │   ├── domain/         # Tính toán chuỗi ngày, thống kê biểu đồ
 │   │   └── presentation/   # Màn hình Dashboard, Heatmap, Settings
-│   └── pronunciation/      # Do Hiếu và Quân phối hợp đảm nhận
-│       ├── data/           # (Hiếu) Gọi API Speech-to-Text, bóc tách JSON
-│       ├── domain/         # (Hiếu) Logic tính điểm, so sánh Phoneme
-│       └── presentation/   # (Quân) UI phòng thu âm, visualizer, bôi màu text, popup IPA
+│   └── pronunciation/     
+│       ├── data/           # Gọi API Speech-to-Text, bóc tách JSON
+│       ├── domain/         # Logic tính điểm, so sánh Phoneme
+│       └── presentation/   # UI phòng thu âm, visualizer, bôi màu text, popup IPA
 └── shared/                 # Custom Widgets dùng chung toàn app (Buttons, Dialogs)
 ```
 
