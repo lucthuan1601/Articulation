@@ -1,0 +1,506 @@
+{
+  "l2": {
+    "skipped": 3,
+    "withoutContrast": {
+      "clips": 447,
+      "phonemes": 14658,
+      "humanErrorRate": 3.9,
+      "precision": 24.5,
+      "recall": 22.8,
+      "f1": 23.6,
+      "falseAlarmRate": 2.8,
+      "scoreCorrelation": 0.14,
+      "meanGoldScore": 93.8,
+      "meanPredScore": 94.5
+    },
+    "leaveOneSpeakerOut": {
+      "clips": 447,
+      "phonemes": 14658,
+      "humanErrorRate": 3.9,
+      "precision": 29.1,
+      "recall": 49.4,
+      "f1": 36.6,
+      "falseAlarmRate": 4.9,
+      "scoreCorrelation": 0.24,
+      "meanGoldScore": 93.8,
+      "meanPredScore": 92.2
+    },
+    "perSpeaker": {
+      "ABA": {
+        "language": "Arabic",
+        "chosenMargin": 5.5,
+        "clips": 149,
+        "phonemes": 4895,
+        "humanErrorRate": 2.3,
+        "precision": 21.4,
+        "recall": 54.9,
+        "f1": 30.8,
+        "falseAlarmRate": 4.8,
+        "scoreCorrelation": 0.41,
+        "meanGoldScore": 95.5,
+        "meanPredScore": 91.1
+      },
+      "ZHAA": {
+        "language": "Arabic",
+        "chosenMargin": 5.5,
+        "clips": 149,
+        "phonemes": 4894,
+        "humanErrorRate": 3.6,
+        "precision": 24,
+        "recall": 46.3,
+        "f1": 31.6,
+        "falseAlarmRate": 5.5,
+        "scoreCorrelation": 0.34,
+        "meanGoldScore": 93.7,
+        "meanPredScore": 92.3
+      },
+      "ASI": {
+        "language": "Hindi",
+        "chosenMargin": 5.5,
+        "clips": 149,
+        "phonemes": 4869,
+        "humanErrorRate": 5.8,
+        "precision": 41.1,
+        "recall": 49.1,
+        "f1": 44.7,
+        "falseAlarmRate": 4.3,
+        "scoreCorrelation": 0.17,
+        "meanGoldScore": 92.4,
+        "meanPredScore": 93.2
+      }
+    },
+    "sweep": {
+      "0": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 24.5,
+        "recall": 22.8,
+        "f1": 23.6,
+        "falseAlarmRate": 2.8,
+        "scoreCorrelation": 0.14,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 94.5
+      },
+      "0.69": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 24.9,
+        "recall": 23.3,
+        "f1": 24.1,
+        "falseAlarmRate": 2.9,
+        "scoreCorrelation": 0.14,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 94.5
+      },
+      "1.1": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 25.2,
+        "recall": 23.8,
+        "f1": 24.5,
+        "falseAlarmRate": 2.9,
+        "scoreCorrelation": 0.14,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 94.5
+      },
+      "1.61": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 25.3,
+        "recall": 24.2,
+        "f1": 24.7,
+        "falseAlarmRate": 2.9,
+        "scoreCorrelation": 0.14,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 94.4
+      },
+      "2.3": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 25.9,
+        "recall": 25.4,
+        "f1": 25.6,
+        "falseAlarmRate": 2.9,
+        "scoreCorrelation": 0.15,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 94.4
+      },
+      "3.4": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 28.3,
+        "recall": 29.8,
+        "f1": 29,
+        "falseAlarmRate": 3.1,
+        "scoreCorrelation": 0.17,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 94.1
+      },
+      "4.61": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 30,
+        "recall": 39.1,
+        "f1": 33.9,
+        "falseAlarmRate": 3.7,
+        "scoreCorrelation": 0.21,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 93.4
+      },
+      "5.5": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 29.1,
+        "recall": 49.4,
+        "f1": 36.6,
+        "falseAlarmRate": 4.9,
+        "scoreCorrelation": 0.24,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 92.2
+      },
+      "6.9": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 24.5,
+        "recall": 55.5,
+        "f1": 34,
+        "falseAlarmRate": 6.9,
+        "scoreCorrelation": 0.2,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 90.6
+      },
+      "9.2": {
+        "clips": 447,
+        "phonemes": 14658,
+        "humanErrorRate": 3.9,
+        "precision": 24.3,
+        "recall": 55.5,
+        "f1": 33.8,
+        "falseAlarmRate": 7,
+        "scoreCorrelation": 0.2,
+        "meanGoldScore": 93.8,
+        "meanPredScore": 90.6
+      }
+    }
+  },
+  "sampleRate": 16000,
+  "native": {
+    "skipped": 19,
+    "speakers": 1,
+    "clips": 54,
+    "meanScore": 95,
+    "minScore": 78,
+    "poorWordRate": 2.2
+  },
+  "synthetic": {
+    "correct": {
+      "Tốc độ thường": {
+        "clips": 16,
+        "meanScore": 97.1,
+        "minScore": 91,
+        "meanSnrEstimate": 85.7,
+        "flaggedNoisy": 0
+      },
+      "Đọc chậm": {
+        "clips": 16,
+        "meanScore": 96.8,
+        "minScore": 87,
+        "meanSnrEstimate": 85.8,
+        "flaggedNoisy": 0
+      },
+      "Đọc nhanh": {
+        "clips": 16,
+        "meanScore": 95.6,
+        "minScore": 88,
+        "meanSnrEstimate": 85.1,
+        "flaggedNoisy": 0
+      },
+      "Nhiễu 20 dB": {
+        "clips": 16,
+        "meanScore": 95.6,
+        "minScore": 88,
+        "meanSnrEstimate": 26.4,
+        "flaggedNoisy": 0
+      },
+      "Nhiễu 10 dB": {
+        "clips": 16,
+        "meanScore": 88.2,
+        "minScore": 64,
+        "meanSnrEstimate": 16.5,
+        "flaggedNoisy": 16
+      },
+      "Nhiễu 5 dB": {
+        "clips": 16,
+        "meanScore": 59.5,
+        "minScore": 40,
+        "meanSnrEstimate": 11.8,
+        "flaggedNoisy": 16
+      }
+    },
+    "injected": {
+      "clips": 18,
+      "wordDetectionRate": 97.7,
+      "issueNamedRate": 100,
+      "meanCorrectScore": 93.3,
+      "meanWrongScore": 79.4,
+      "cases": [
+        {
+          "voice": "David",
+          "issue": "th-voiceless",
+          "correctScore": 86,
+          "wrongScore": 84,
+          "wordsFlagged": 3,
+          "wordsInjected": 3,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "th-voiced",
+          "correctScore": 86,
+          "wrongScore": 86,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "r-sound",
+          "correctScore": 96,
+          "wrongScore": 78,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "long-short-i",
+          "correctScore": 89,
+          "wrongScore": 82,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "v-f-sound",
+          "correctScore": 100,
+          "wrongScore": 91,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "sh-sound",
+          "correctScore": 100,
+          "wrongScore": 83,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "ae-eh",
+          "correctScore": 90,
+          "wrongScore": 83,
+          "wordsFlagged": 2,
+          "wordsInjected": 3,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "final-consonant",
+          "correctScore": 80,
+          "wrongScore": 52,
+          "wordsFlagged": 3,
+          "wordsInjected": 3,
+          "issueNamed": true
+        },
+        {
+          "voice": "David",
+          "issue": "final-s",
+          "correctScore": 100,
+          "wrongScore": 82,
+          "wordsFlagged": 3,
+          "wordsInjected": 3,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "th-voiceless",
+          "correctScore": 86,
+          "wrongScore": 86,
+          "wordsFlagged": 3,
+          "wordsInjected": 3,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "th-voiced",
+          "correctScore": 86,
+          "wrongScore": 84,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "r-sound",
+          "correctScore": 96,
+          "wrongScore": 82,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "long-short-i",
+          "correctScore": 89,
+          "wrongScore": 82,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "v-f-sound",
+          "correctScore": 100,
+          "wrongScore": 89,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "sh-sound",
+          "correctScore": 100,
+          "wrongScore": 69,
+          "wordsFlagged": 2,
+          "wordsInjected": 2,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "ae-eh",
+          "correctScore": 95,
+          "wrongScore": 85,
+          "wordsFlagged": 3,
+          "wordsInjected": 3,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "final-consonant",
+          "correctScore": 100,
+          "wrongScore": 50,
+          "wordsFlagged": 3,
+          "wordsInjected": 3,
+          "issueNamed": true
+        },
+        {
+          "voice": "Zira",
+          "issue": "final-s",
+          "correctScore": 100,
+          "wrongScore": 82,
+          "wordsFlagged": 3,
+          "wordsInjected": 3,
+          "issueNamed": true
+        }
+      ]
+    }
+  },
+  "fluency": {
+    "l2": {
+      "clips": 447,
+      "rate": {
+        "min": 7.1,
+        "p10": 9,
+        "median": 11.1,
+        "p90": 14.2,
+        "max": 17.4
+      },
+      "pauses": {
+        "min": 0,
+        "p10": 0,
+        "median": 0,
+        "p90": 1,
+        "max": 3
+      },
+      "score": {
+        "min": 73,
+        "p10": 94,
+        "median": 100,
+        "p90": 100,
+        "max": 100
+      }
+    },
+    "l2WithInsertedPauses": {
+      "score": {
+        "min": 52,
+        "p10": 76,
+        "median": 88,
+        "p90": 100,
+        "max": 100
+      }
+    },
+    "synthetic": {
+      "Đọc chậm": {
+        "rate": {
+          "min": 7.7,
+          "p10": 7.9,
+          "median": 9.4,
+          "p90": 10.7,
+          "max": 11.1
+        },
+        "score": {
+          "min": 84,
+          "p10": 86,
+          "median": 100,
+          "p90": 100,
+          "max": 100
+        }
+      },
+      "Tốc độ thường": {
+        "rate": {
+          "min": 10.3,
+          "p10": 11.4,
+          "median": 12.9,
+          "p90": 14.8,
+          "max": 15.7
+        },
+        "score": {
+          "min": 100,
+          "p10": 100,
+          "median": 100,
+          "p90": 100,
+          "max": 100
+        }
+      },
+      "Đọc nhanh": {
+        "rate": {
+          "min": 15,
+          "p10": 17.3,
+          "median": 18.6,
+          "p90": 21.3,
+          "max": 22.8
+        },
+        "score": {
+          "min": 100,
+          "p10": 100,
+          "median": 100,
+          "p90": 100,
+          "max": 100
+        }
+      }
+    }
+  }
+}
