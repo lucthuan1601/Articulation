@@ -13,20 +13,6 @@ Dự án ứng dụng di động học tiếng Anh xây dựng bằng Flutter. �
 
 ---
 
-## 🎙️ Chạy tính năng chấm phát âm
-
-App gửi bản ghi tới dịch vụ AI trong thư mục `ai_server/`, nên cần chạy dịch vụ này trước (Node.js 22.13 trở lên):
-
-```bash
-cd ai_server
-npm install
-npm start
-```
-
-App mặc định gọi `http://10.0.2.2:8787`, tức máy tính chủ khi chạy trên máy ảo Android. Với điện thoại thật, xem hướng dẫn trong [`ai_server/docs/ai-module.md`](ai_server/docs/ai-module.md).
-
----
-
 ## 📁 Cấu trúc thư mục (Clean Architecture)
 
 Dự án áp dụng mô hình Clean Architecture để dễ dàng mở rộng và phân chia công việc cho nhiều người.
@@ -36,14 +22,14 @@ lib/
 ├── core/                   # Cấu hình chung: Network (Dio), Theme, Utils, Error handling
 ├── di/                     # Dependency Injection setup (GetIt, Injectable)
 ├── features/               # Các tính năng chính của ứng dụng
-│   ├── habit_tracking/     # (Logic Streak, Notifications)
+│   ├── habit_tracking/     # Do Hoàng Tùng đảm nhận (Logic Streak, Notifications)
 │   │   ├── data/           # Models, Floor DAO
 │   │   ├── domain/         # Tính toán chuỗi ngày, thống kê biểu đồ
 │   │   └── presentation/   # Màn hình Dashboard, Heatmap, Settings
-│   └── pronunciation/     
-│       ├── data/           # Gọi API Speech-to-Text, bóc tách JSON
-│       ├── domain/         # Logic tính điểm, so sánh Phoneme
-│       └── presentation/   # UI phòng thu âm, visualizer, bôi màu text, popup IPA
+│   └── pronunciation/      # Do Hiếu và Quân phối hợp đảm nhận
+│       ├── data/           # (Hiếu) Gọi API Speech-to-Text, bóc tách JSON
+│       ├── domain/         # (Hiếu) Logic tính điểm, so sánh Phoneme
+│       └── presentation/   # (Quân) UI phòng thu âm, visualizer, bôi màu text, popup IPA
 └── shared/                 # Custom Widgets dùng chung toàn app (Buttons, Dialogs)
 ```
 

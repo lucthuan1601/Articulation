@@ -8,13 +8,6 @@ import 'package:articulation/features/habit_tracking/domain/repositories/user_re
 import 'package:articulation/features/habit_tracking/domain/repositories/practice_session_repository.dart';
 import 'package:articulation/features/pronunciation/domain/repositories/lesson_repository.dart';
 import 'package:articulation/features/pronunciation/domain/repositories/pronunciation_result_repository.dart';
-import 'package:articulation/core/utils/constants.dart';
-import 'package:articulation/features/pronunciation/data/datasources/speech_api_client.dart';
-import 'package:articulation/features/pronunciation/data/datasources/wav_speech_recorder.dart';
-import 'package:articulation/features/pronunciation/data/repositories/speech_analysis_repository_impl.dart';
-import 'package:articulation/features/pronunciation/domain/repositories/speech_analysis_repository.dart';
-import 'package:articulation/features/pronunciation/domain/repositories/speech_recorder.dart';
-import 'package:articulation/features/pronunciation/domain/usecases/analyze_pronunciation.dart';
 
 /// Service Locator sử dụng GetIt
 /// Đăng ký tất cả dependencies của ứng dụng
@@ -51,23 +44,5 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<PronunciationResultRepository>(
     () => PronunciationResultRepositoryImpl(pronunciationResultDao: sl()),
-  );
-
-  // ══════════════════════════════════════════════════════════════
-  // SPEECH & AI
-  // ══════════════════════════════════════════════════════════════
-  sl.registerLazySingleton(
-    () => SpeechApiClient(baseUrl: AppConstants.aiServerUrl),
-  );
-  sl.registerLazySingleton<SpeechAnalysisRepository>(
-    () => SpeechAnalysisRepositoryImpl(client: sl()),
-  );
-  sl.registerFactory<SpeechRecorder>(WavSpeechRecorder.new);
-  sl.registerLazySingleton(
-    () => AnalyzePronunciation(
-      analysisRepository: sl(),
-      resultRepository: sl(),
-      sessionRepository: sl(),
-    ),
   );
 }
