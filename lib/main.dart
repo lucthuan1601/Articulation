@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:articulation/core/theme/app_colors.dart';
 import 'package:articulation/core/theme/app_theme.dart';
 import 'package:articulation/core/database/seed_data.dart';
@@ -7,6 +8,7 @@ import 'package:articulation/features/habit_tracking/domain/repositories/user_re
 import 'package:articulation/features/pronunciation/domain/repositories/lesson_repository.dart';
 import 'package:articulation/features/pronunciation/domain/entities/lesson.dart';
 import 'package:articulation/features/habit_tracking/domain/entities/user.dart';
+import 'package:articulation/features/habit_tracking/presentation/screens/habit_dashboard_screen.dart';
 
 /// Điểm khởi đầu của ứng dụng Articulation
 void main() async {
@@ -15,7 +17,12 @@ void main() async {
   // Khởi tạo các dependencies (Database, DAOs, Repositories)
   await initDependencies();
 
-  runApp(const ArticulationApp());
+  runApp(
+    // ProviderScope cần thiết cho flutter_riverpod (Checklist 6 - Minh Hiếu)
+    const ProviderScope(
+      child: ArticulationApp(),
+    ),
+  );
 }
 
 /// Widget gốc của ứng dụng Articulation
@@ -134,6 +141,18 @@ class _DatabaseOverviewScreenState extends State<DatabaseOverviewScreen> {
             icon: const Icon(Icons.refresh),
             tooltip: 'Tải lại dữ liệu',
             onPressed: _loadDatabaseData,
+          ),
+          // Nút điều hướng sang màn hình Habit Tracking (Checklist 2&6 - Minh Hiếu)
+          IconButton(
+            icon: const Icon(Icons.local_fire_department_rounded,
+                color: AppColors.streakFlame),
+            tooltip: 'Habit Tracking',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const HabitDashboardScreen(),
+              ),
+            ),
           ),
         ],
       ),
