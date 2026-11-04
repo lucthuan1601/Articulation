@@ -41,6 +41,10 @@ class PhonemeDetail {
   /// Null nếu phát âm đã đúng và không cần gợi ý.
   final String? suggestion;
 
+  /// Chi tiết từng âm vị trong từ, dạng JSON của `PhonemeDetail` tầng domain.
+  /// Rỗng với dữ liệu cũ chỉ có thông tin theo từ.
+  final List<Map<String, dynamic>> phonemes;
+
   /// Tạo mới một [PhonemeDetail].
   const PhonemeDetail({
     required this.word,
@@ -49,21 +53,10 @@ class PhonemeDetail {
     required this.correctIpa,
     required this.score,
     this.suggestion,
+    this.phonemes = const [],
   });
 
   /// Tạo [PhonemeDetail] từ một [Map] JSON.
-  ///
-  /// Ví dụ:
-  /// ```dart
-  /// final detail = PhonemeDetail.fromJson({
-  ///   'word': 'hello',
-  ///   'status': 'correct',
-  ///   'userIpa': 'həˈloʊ',
-  ///   'correctIpa': 'həˈləʊ',
-  ///   'score': 85.5,
-  ///   'suggestion': null,
-  /// });
-  /// ```
   factory PhonemeDetail.fromJson(Map<String, dynamic> json) {
     return PhonemeDetail(
       word: json['word'] as String,
@@ -72,6 +65,8 @@ class PhonemeDetail {
       correctIpa: json['correctIpa'] as String,
       score: (json['score'] as num).toDouble(),
       suggestion: json['suggestion'] as String?,
+      phonemes: (json['phonemes'] as List<dynamic>? ?? const [])
+          .cast<Map<String, dynamic>>(),
     );
   }
 
@@ -84,20 +79,11 @@ class PhonemeDetail {
       'correctIpa': correctIpa,
       'score': score,
       'suggestion': suggestion,
+      'phonemes': phonemes,
     };
   }
 
   /// Phân tích chuỗi JSON thành danh sách [PhonemeDetail].
-  ///
-  /// Dùng để deserialize cột `phoneme_details` từ database.
-  ///
-  /// Ví dụ:
-  /// ```dart
-  /// final jsonString = '[{"word":"hello","status":"correct",...}]';
-  /// final details = PhonemeDetail.fromJsonList(jsonString);
-  /// ```
-  ///
-  /// Trả về danh sách rỗng nếu [jsonString] rỗng hoặc không hợp lệ.
   static List<PhonemeDetail> fromJsonList(String jsonString) {
     if (jsonString.isEmpty) return [];
 
@@ -108,15 +94,6 @@ class PhonemeDetail {
   }
 
   /// Chuyển đổi danh sách [PhonemeDetail] thành chuỗi JSON.
-  ///
-  /// Dùng để serialize trước khi lưu vào cột `phoneme_details` trong database.
-  ///
-  /// Ví dụ:
-  /// ```dart
-  /// final details = [PhonemeDetail(word: 'hello', ...)];
-  /// final jsonString = PhonemeDetail.toJsonList(details);
-  /// // Kết quả: '[{"word":"hello","status":"correct",...}]'
-  /// ```
   static String toJsonList(List<PhonemeDetail> details) {
     return jsonEncode(details.map((detail) => detail.toJson()).toList());
   }

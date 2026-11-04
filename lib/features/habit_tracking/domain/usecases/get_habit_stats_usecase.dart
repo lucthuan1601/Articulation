@@ -134,9 +134,9 @@ class GetHabitStatsUseCase {
 
     final recentSessions = results[0] as List<PracticeSession>;
     final thisWeekSessions = results[1] as List<PracticeSession>;
-    final totalSeconds = results[2] as int;
-    final avgScore = results[3] as double;
-    final totalSessions = results[4] as int;
+    final totalSeconds = (results[2] as num?)?.toInt() ?? 0;
+    final avgScore = (results[3] as num?)?.toDouble() ?? 0.0;
+    final totalSessions = (results[4] as num?)?.toInt() ?? 0;
 
     // Kiểm tra hôm nay
     final todayKey = DateTime(now.year, now.month, now.day);

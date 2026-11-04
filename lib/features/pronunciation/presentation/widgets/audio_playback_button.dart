@@ -7,7 +7,8 @@ import 'package:articulation/core/theme/app_text_styles.dart';
 
 /// Nút phát lại âm thanh. [source] có thể là:
 ///  - đường dẫn file trong máy (bản ghi của người dùng, .m4a/.wav)
-///  - URL http(s) (âm thanh mẫu của bài học)
+///  - URL http(s) hoặc blob (âm thanh mẫu hoặc bản ghi trên web)
+///  - asset: đường dẫn asset
 /// Nếu [source] null/rỗng thì nút bị vô hiệu hoá.
 class AudioPlaybackButton extends StatefulWidget {
   final String? source;
@@ -63,8 +64,10 @@ class _AudioPlaybackButtonState extends State<AudioPlaybackButton> {
 
       if (_loadedSource != src) {
         setState(() => _loadingSource = true);
-        if (src.startsWith('http')) {
+        if (src.startsWith('http') || src.startsWith('blob:')) {
           await _player.setUrl(src);
+        } else if (src.startsWith('asset:')) {
+          await _player.setAsset(src.replaceFirst('asset:', ''));
         } else {
           await _player.setFilePath(src);
         }
@@ -99,49 +102,43 @@ class _AudioPlaybackButtonState extends State<AudioPlaybackButton> {
         state.processingState == ProcessingState.buffering;
     final playing = state.playing &&
         state.processingState != ProcessingState.completed;
-    final color = _enabled ? widget.color : AppColors.textHint;
 
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Flexible(
-          child: OutlinedButton.icon(
+        Expanded(
+          child: ElevatedButton.icon(
             onPressed: _enabled ? _toggle : null,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: color,
-              side: BorderSide(color: color.withValues(alpha: 0.5)),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            ),
             icon: buffering
-                ? SizedBox(
+                ? const SizedBox(
                     width: 18,
                     height: 18,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2, color: color),
+                    child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Icon(playing
-                    ? Icons.pause_circle_filled_rounded
-                    : Icons.play_circle_fill_rounded),
-            label: Text(
-              _enabled ? widget.label : '${widget.label} (chưa có)',
-              style: AppTextStyles.labelLarge.copyWith(color: color),
-              overflow: TextOverflow.ellipsis,
+                : Icon(playing ? Icons.pause_rounded : Icons.play_arrow_rounded),
+            label: Text(widget.label),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: widget.color,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           ),
         ),
         if (widget.allowSlow && _enabled) ...[
           const SizedBox(width: 8),
           FilterChip(
-            label: const Text('0.75x'),
+            label: const Text('0.75x', style: AppTextStyles.labelMedium),
             selected: _slow,
-            onSelected: (v) async {
-              setState(() => _slow = v);
-              await _player.setSpeed(v ? 0.75 : 1.0);
+            onSelected: (val) async {
+              setState(() => _slow = val);
+              if (_player.playing) {
+                await _player.setSpeed(_slow ? 0.75 : 1.0);
+              }
             },
+            visualDensity: VisualDensity.compact,
+            showCheckmark: false,
           ),
         ],
       ],

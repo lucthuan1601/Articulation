@@ -48,20 +48,32 @@ class PracticeSessionRepositoryImpl implements PracticeSessionRepository {
 
   @override
   Future<int> getTotalPracticeTime(String userId) async {
-    final time = await _practiceSessionDao.getTotalPracticeTime(userId);
-    return time ?? 0;
+    try {
+      final time = await _practiceSessionDao.getTotalPracticeTime(userId);
+      return time ?? 0;
+    } catch (_) {
+      return 0;
+    }
   }
 
   @override
   Future<double> getAverageScore(String userId) async {
-    final score = await _practiceSessionDao.getAverageScore(userId);
-    return score ?? 0.0;
+    try {
+      final score = await _practiceSessionDao.getAverageScore(userId);
+      return score ?? 0.0;
+    } catch (_) {
+      return 0.0;
+    }
   }
 
   @override
   Future<int> getSessionCount(String userId) async {
-    final count = await _practiceSessionDao.getSessionCount(userId);
-    return count ?? 0;
+    try {
+      final count = await _practiceSessionDao.getSessionCount(userId);
+      return count ?? 0;
+    } catch (_) {
+      return 0;
+    }
   }
 
   @override

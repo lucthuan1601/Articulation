@@ -21,6 +21,7 @@ library;
 import 'dart:async';
 
 import 'package:floor/floor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 // Import các Entity (model)
@@ -29,7 +30,7 @@ import 'package:articulation/features/pronunciation/data/models/lesson_entity.da
 import 'package:articulation/features/habit_tracking/data/models/practice_session_entity.dart';
 import 'package:articulation/features/pronunciation/data/models/pronunciation_result_entity.dart';
 
-// Import các DAO
+import 'package:articulation/core/database/web_in_memory_database.dart';
 import 'package:articulation/features/habit_tracking/data/dao/user_dao.dart';
 import 'package:articulation/features/pronunciation/data/dao/lesson_dao.dart';
 import 'package:articulation/features/habit_tracking/data/dao/practice_session_dao.dart';
@@ -105,17 +106,11 @@ abstract class AppDatabase extends FloorDatabase {
   /// Các lần gọi tiếp theo sẽ trả về cùng instance đã tạo.
   ///
   /// Trả về [Future<AppDatabase>] - instance duy nhất của cơ sở dữ liệu.
-  ///
-  /// ### Ví dụ:
-  /// ```dart
-  /// // Lấy instance cơ sở dữ liệu
-  /// final db = await AppDatabase.getInstance();
-  ///
-  /// // Sử dụng các DAO
-  /// final user = await db.userDao.findUserById('user-123');
-  /// final lessons = await db.lessonDao.findAllLessons();
-  /// ```
   static Future<AppDatabase> getInstance() async {
+    if (kIsWeb) {
+      _instance ??= WebInMemoryDatabase();
+      return _instance!;
+    }
     _instance ??= await $FloorAppDatabase
         .databaseBuilder('articulation.db')
         .build();

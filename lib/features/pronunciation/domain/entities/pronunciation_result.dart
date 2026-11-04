@@ -77,6 +77,41 @@ class PhonemeDetail {
       'PhonemeDetail(phoneme: $phoneme, score: $accuracyScore, assessment: $assessment)';
 }
 
+/// Kết quả đánh giá phát âm của một từ
+class WordDetail {
+  /// Từ được đánh giá
+  final String word;
+
+  /// Trạng thái: 'correct' | 'wrong' | 'missed'
+  final String status;
+
+  /// Phiên âm IPA mà người dùng thực tế phát âm
+  final String userIpa;
+
+  /// Phiên âm IPA chuẩn
+  final String correctIpa;
+
+  /// Điểm của từ (0.0 - 100.0)
+  final double score;
+
+  /// Gợi ý cải thiện, null nếu từ đã đọc tốt
+  final String? suggestion;
+
+  /// Chi tiết từng âm vị trong từ
+  final List<PhonemeDetail> phonemes;
+
+  /// Constructor
+  const WordDetail({
+    required this.word,
+    required this.status,
+    required this.userIpa,
+    required this.correctIpa,
+    required this.score,
+    this.suggestion,
+    this.phonemes = const [],
+  });
+}
+
 /// Đối tượng PronunciationResult ở tầng Domain
 /// Đại diện cho kết quả đánh giá phát âm của một bài tập
 /// Chứa điểm số chi tiết và phân tích từng âm vị
@@ -111,6 +146,9 @@ class PronunciationResult {
   /// Chi tiết đánh giá từng âm vị (parsed từ JSON)
   final List<PhonemeDetail> phonemeDetails;
 
+  /// Kết quả theo từng từ, dùng cho màn hình phản hồi
+  final List<WordDetail> words;
+
   /// Phản hồi/nhận xét về bài phát âm
   final String feedback;
 
@@ -129,6 +167,7 @@ class PronunciationResult {
     this.completenessScore = 0.0,
     this.overallScore = 0.0,
     this.phonemeDetails = const [],
+    this.words = const [],
     this.feedback = '',
     required this.createdAt,
   });
@@ -179,6 +218,7 @@ class PronunciationResult {
     double? completenessScore,
     double? overallScore,
     List<PhonemeDetail>? phonemeDetails,
+    List<WordDetail>? words,
     String? feedback,
     DateTime? createdAt,
   }) {
@@ -193,6 +233,7 @@ class PronunciationResult {
       completenessScore: completenessScore ?? this.completenessScore,
       overallScore: overallScore ?? this.overallScore,
       phonemeDetails: phonemeDetails ?? this.phonemeDetails,
+      words: words ?? this.words,
       feedback: feedback ?? this.feedback,
       createdAt: createdAt ?? this.createdAt,
     );

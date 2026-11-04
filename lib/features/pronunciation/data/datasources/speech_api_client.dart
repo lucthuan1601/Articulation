@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:articulation/core/error/exceptions.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 /// Gọi API của dịch vụ AI trong thư mục `ai_server/`.
 class SpeechApiClient {
@@ -32,7 +33,21 @@ class SpeechApiClient {
     required String audioPath,
     required String text,
   }) async {
-    final bytes = await File(audioPath).readAsBytes();
+    final List<int> bytes;
+    if (kIsWeb) {
+      if (audioPath.startsWith('blob:') || audioPath.startsWith('http')) {
+        final res = await _dio.get<List<int>>(
+          audioPath,
+          options: Options(responseType: ResponseType.bytes),
+        );
+        bytes = res.data ?? <int>[];
+      } else {
+        bytes = <int>[];
+      }
+    } else {
+      bytes = await File(audioPath).readAsBytes();
+    }
+
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         '/api/pronunciation/analyze',
@@ -41,7 +56,7 @@ class SpeechApiClient {
         data: Stream<List<int>>.value(bytes),
         options: Options(
           contentType: 'audio/wav',
-          headers: {Headers.contentLengthHeader: bytes.length},
+          headers: kIsWeb ? null : {Headers.contentLengthHeader: bytes.length},
         ),
       );
       return response.data!;

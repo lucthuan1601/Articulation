@@ -6,6 +6,7 @@
 /// - Bật/tắt thông báo
 library;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -46,24 +47,33 @@ class NotificationService {
   Future<void> initialize() async {
     if (_initialized) return;
 
-    // Khởi tạo timezone database
-    tz.initializeTimeZones();
-    final localTimeZone = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(localTimeZone));
+    if (kIsWeb) {
+      _initialized = true;
+      return;
+    }
 
-    const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosSettings = DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
-    const initSettings = InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
-    );
+    try {
+      // Khởi tạo timezone database
+      tz.initializeTimeZones();
+      final localTimeZone = await FlutterTimezone.getLocalTimezone();
+      tz.setLocalLocation(tz.getLocation(localTimeZone.identifier));
 
-    await _plugin.initialize(initSettings);
+      const androidSettings =
+          AndroidInitializationSettings('@mipmap/ic_launcher');
+      const iosSettings = DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+      );
+      const initSettings = InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      );
+
+      await _plugin.initialize(initSettings);
+    } catch (e) {
+      debugPrint('NotificationService initialize warning: $e');
+    }
     _initialized = true;
   }
 
@@ -71,10 +81,15 @@ class NotificationService {
   ///
   /// Trả về `true` nếu người dùng đã cấp quyền.
   Future<bool> requestPermissions() async {
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    final granted = await android?.requestNotificationsPermission();
-    return granted ?? false;
+    if (kIsWeb) return true;
+    try {
+      final android = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      final granted = await android?.requestNotificationsPermission();
+      return granted ?? false;
+    } catch (_) {
+      return false;
+    }
   }
 
   /// Lên lịch nhắc nhở luyện tập hàng ngày (lặp lại mỗi ngày).
@@ -87,6 +102,8 @@ class NotificationService {
     String time, {
     String userName = 'bạn',
   }) async {
+    if (kIsWeb) return;
+
     final match = RegExp(r'^([01]\d|2[0-3]):([0-5]\d)$').firstMatch(time);
     if (match == null) {
       throw FormatException('Notification time must use HH:mm format.', time);
@@ -97,81 +114,91 @@ class NotificationService {
     // Hủy lịch cũ trước
     await cancelDailyReminder();
 
-    // Tính thời điểm lên lịch
-    final now = tz.TZDateTime.now(tz.local);
-    var scheduled = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day,
-      hour,
-      minute,
-    );
-    // Nếu giờ hôm nay đã qua, lịch sang ngày mai
-    if (scheduled.isBefore(now)) {
-      scheduled = scheduled.add(const Duration(days: 1));
-    }
+    try {
+      // Tính thời điểm lên lịch
+      final now = tz.TZDateTime.now(tz.local);
+      var scheduled = tz.TZDateTime(
+        tz.local,
+        now.year,
+        now.month,
+        now.day,
+        hour,
+        minute,
+      );
+      // Nếu giờ hôm nay đã qua, lịch sang ngày mai
+      if (scheduled.isBefore(now)) {
+        scheduled = scheduled.add(const Duration(days: 1));
+      }
 
-    await _plugin.zonedSchedule(
-      _dailyReminderId,
-      '⏰ Đến giờ luyện phát âm rồi!',
-      'Chào $userName! Chỉ 15 phút hôm nay là đủ để duy trì streak 🔥',
-      scheduled,
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          _dailyChannelId,
-          'Nhắc nhở luyện tập hàng ngày',
-          channelDescription: 'Thông báo nhắc nhở luyện phát âm tiếng Anh',
-          importance: Importance.high,
-          priority: Priority.high,
-          color: const Color(0xFF7C3AED),
-          icon: '@mipmap/ic_launcher',
-          styleInformation: const BigTextStyleInformation(''),
+      await _plugin.zonedSchedule(
+        _dailyReminderId,
+        '⏰ Đến giờ luyện phát âm rồi!',
+        'Chào $userName! Chỉ 15 phút hôm nay là đủ để duy trì streak 🔥',
+        scheduled,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            _dailyChannelId,
+            'Nhắc nhở luyện tập hàng ngày',
+            channelDescription: 'Thông báo nhắc nhở luyện phát âm tiếng Anh',
+            importance: Importance.high,
+            priority: Priority.high,
+            color: const Color(0xFF7C3AED),
+            icon: '@mipmap/ic_launcher',
+            styleInformation: const BigTextStyleInformation(''),
+          ),
+          iOS: const DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
         ),
-        iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-      ),
-      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      // Lặp lại mỗi ngày cùng giờ
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        // Lặp lại mỗi ngày cùng giờ
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    } catch (e) {
+      debugPrint('scheduleDailyReminder error: $e');
+    }
   }
 
   /// Hủy thông báo nhắc nhở hàng ngày.
   Future<void> cancelDailyReminder() async {
-    await _plugin.cancel(_dailyReminderId);
+    if (kIsWeb) return;
+    try {
+      await _plugin.cancel(_dailyReminderId);
+    } catch (_) {}
   }
 
   /// Hiển thị thông báo chúc mừng khi người dùng đạt mốc streak mới.
   ///
   /// [streakDays] - Số ngày streak hiện tại.
   Future<void> showStreakNotification(int streakDays) async {
+    if (kIsWeb) return;
     // Chỉ thông báo ở các mốc đặc biệt
     if (!_isStreakMilestone(streakDays)) return;
 
     final (title, body) = _buildStreakMessage(streakDays);
 
-    await _plugin.show(
-      _streakAchievementId,
-      title,
-      body,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          _achievementChannelId,
-          'Thành tích học tập',
-          channelDescription: 'Thông báo khi đạt thành tích mới',
-          importance: Importance.defaultImportance,
-          priority: Priority.defaultPriority,
-          color: Color(0xFFFF6B35),
+    try {
+      await _plugin.show(
+        _streakAchievementId,
+        title,
+        body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            _achievementChannelId,
+            'Thành tích học tập',
+            channelDescription: 'Thông báo khi đạt thành tích mới',
+            importance: Importance.defaultImportance,
+            priority: Priority.defaultPriority,
+            color: Color(0xFFFF6B35),
+          ),
+          iOS: DarwinNotificationDetails(),
         ),
-        iOS: DarwinNotificationDetails(),
-      ),
-    );
+      );
+    } catch (_) {}
   }
 
   /// Kiểm tra xem [days] có phải mốc đáng thông báo không.
@@ -207,13 +234,21 @@ class NotificationService {
 
   /// Kiểm tra quyền thông báo hiện tại.
   Future<bool> areNotificationsEnabled() async {
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    return await android?.areNotificationsEnabled() ?? true;
+    if (kIsWeb) return true;
+    try {
+      final android = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      return await android?.areNotificationsEnabled() ?? true;
+    } catch (_) {
+      return true;
+    }
   }
 
   /// Hủy tất cả thông báo đã lên lịch.
   Future<void> cancelAll() async {
-    await _plugin.cancelAll();
+    if (kIsWeb) return;
+    try {
+      await _plugin.cancelAll();
+    } catch (_) {}
   }
 }

@@ -1,7 +1,8 @@
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:articulation/core/error/failures.dart';
 import 'package:articulation/core/utils/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
@@ -21,8 +22,20 @@ class WavSpeechRecorder implements SpeechRecorder {
       );
     }
     try {
+      if (kIsWeb) {
+        await _recorder.start(
+          const RecordConfig(
+            encoder: AudioEncoder.wav,
+            sampleRate: AppConstants.recordingSampleRate,
+            numChannels: 1,
+          ),
+          path: '',
+        );
+        return;
+      }
+
       final directory = await getApplicationDocumentsDirectory();
-      final folder = Directory(p.join(directory.path, 'recordings'));
+      final folder = io.Directory(p.join(directory.path, 'recordings'));
       await folder.create(recursive: true);
       await _recorder.start(
         const RecordConfig(
@@ -51,8 +64,10 @@ class WavSpeechRecorder implements SpeechRecorder {
 
   @override
   Future<void> discard(String path) async {
-    final file = File(path);
-    if (await file.exists()) await file.delete();
+    if (!kIsWeb) {
+      final file = io.File(path);
+      if (await file.exists()) await file.delete();
+    }
   }
 
   @override

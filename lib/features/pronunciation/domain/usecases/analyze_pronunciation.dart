@@ -1,5 +1,6 @@
 import 'package:articulation/features/habit_tracking/domain/entities/practice_session.dart';
 import 'package:articulation/features/habit_tracking/domain/repositories/practice_session_repository.dart';
+import 'package:articulation/features/habit_tracking/domain/usecases/calculate_streak_usecase.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entities/lesson.dart';
@@ -22,16 +23,19 @@ class AnalyzePronunciation {
   final SpeechAnalysisRepository _analysisRepository;
   final PronunciationResultRepository _resultRepository;
   final PracticeSessionRepository _sessionRepository;
+  final CalculateStreakUseCase? _streakUseCase;
   final Uuid _uuid;
 
   AnalyzePronunciation({
     required SpeechAnalysisRepository analysisRepository,
     required PronunciationResultRepository resultRepository,
     required PracticeSessionRepository sessionRepository,
+    CalculateStreakUseCase? streakUseCase,
     Uuid uuid = const Uuid(),
   })  : _analysisRepository = analysisRepository,
         _resultRepository = resultRepository,
         _sessionRepository = sessionRepository,
+        _streakUseCase = streakUseCase,
         _uuid = uuid;
 
   Future<PracticeAttempt> call({
@@ -62,6 +66,8 @@ class AnalyzePronunciation {
       createdAt: DateTime.now(),
     );
     await _resultRepository.saveResult(result);
+    // Tự động tính toán và cập nhật streak cho user sau khi hoàn thành bài luyện
+    await _streakUseCase?.execute(userId);
     return PracticeAttempt(analysis: analysis, result: result);
   }
 

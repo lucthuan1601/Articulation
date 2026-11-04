@@ -6,7 +6,7 @@ library;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import intl
 import 'package:articulation/core/theme/app_colors.dart';
 import 'package:articulation/features/habit_tracking/domain/entities/practice_session.dart';
 
@@ -290,7 +290,7 @@ class WeeklyChartWidget extends StatelessWidget {
           .fold<int>(0, (sum, s) => sum + s.duration.inSeconds);
 
       result.add(_DayChartData(
-        label: isToday ? 'Hôm\nnay' : DateFormat('E', 'vi').format(day),
+        label: isToday ? 'Hôm\nnay' : const ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'][(day.weekday - 1) % 7],
         minutes: daySeconds ~/ 60,
         isToday: isToday,
       ));

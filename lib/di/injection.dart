@@ -1,16 +1,23 @@
 import 'package:get_it/get_it.dart';
 import 'package:articulation/core/database/app_database.dart';
 import 'package:articulation/core/notifications/notification_service.dart';
+import 'package:articulation/core/utils/constants.dart';
 import 'package:articulation/features/habit_tracking/data/repositories/user_repository_impl.dart';
 import 'package:articulation/features/habit_tracking/data/repositories/practice_session_repository_impl.dart';
 import 'package:articulation/features/pronunciation/data/repositories/lesson_repository_impl.dart';
 import 'package:articulation/features/pronunciation/data/repositories/pronunciation_result_repository_impl.dart';
+import 'package:articulation/features/pronunciation/data/datasources/speech_api_client.dart';
+import 'package:articulation/features/pronunciation/data/datasources/wav_speech_recorder.dart';
+import 'package:articulation/features/pronunciation/data/repositories/speech_analysis_repository_impl.dart';
 import 'package:articulation/features/habit_tracking/domain/repositories/user_repository.dart';
 import 'package:articulation/features/habit_tracking/domain/repositories/practice_session_repository.dart';
 import 'package:articulation/features/pronunciation/domain/repositories/lesson_repository.dart';
 import 'package:articulation/features/pronunciation/domain/repositories/pronunciation_result_repository.dart';
+import 'package:articulation/features/pronunciation/domain/repositories/speech_analysis_repository.dart';
+import 'package:articulation/features/pronunciation/domain/repositories/speech_recorder.dart';
 import 'package:articulation/features/habit_tracking/domain/usecases/calculate_streak_usecase.dart';
 import 'package:articulation/features/habit_tracking/domain/usecases/get_habit_stats_usecase.dart';
+import 'package:articulation/features/pronunciation/domain/usecases/analyze_pronunciation.dart';
 
 /// Service Locator sử dụng GetIt
 /// Đăng ký tất cả dependencies của ứng dụng
@@ -66,7 +73,26 @@ Future<void> initDependencies() async {
   );
 
   // ══════════════════════════════════════════════════════════════
-  // NOTIFICATIONS
+  // SPEECH & AI (Checklist 3 & 4 - Hoàng Tùng)
+  // ══════════════════════════════════════════════════════════════
+  sl.registerLazySingleton(
+    () => SpeechApiClient(baseUrl: AppConstants.aiServerUrl),
+  );
+  sl.registerLazySingleton<SpeechAnalysisRepository>(
+    () => SpeechAnalysisRepositoryImpl(client: sl()),
+  );
+  sl.registerFactory<SpeechRecorder>(WavSpeechRecorder.new);
+  sl.registerLazySingleton(
+    () => AnalyzePronunciation(
+      analysisRepository: sl(),
+      resultRepository: sl(),
+      sessionRepository: sl(),
+      streakUseCase: sl(),
+    ),
+  );
+
+  // ══════════════════════════════════════════════════════════════
+  // NOTIFICATIONS (Checklist 6)
   // ══════════════════════════════════════════════════════════════
   final notificationService = NotificationService();
   await notificationService.initialize();

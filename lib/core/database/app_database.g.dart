@@ -618,7 +618,7 @@ class _$PracticeSessionDao extends PracticeSessionDao {
   Future<int?> getTotalPracticeTime(String userId) async {
     return _queryAdapter.query(
         'SELECT SUM(duration_seconds) FROM practice_sessions WHERE user_id = ?1',
-        mapper: (Map<String, Object?> row) => row.values.first as int,
+        mapper: (Map<String, Object?> row) => (row.values.first as num?)?.toInt() ?? 0,
         arguments: [userId]);
   }
 
@@ -626,7 +626,7 @@ class _$PracticeSessionDao extends PracticeSessionDao {
   Future<double?> getAverageScore(String userId) async {
     return _queryAdapter.query(
         'SELECT AVG(total_score) FROM practice_sessions WHERE user_id = ?1',
-        mapper: (Map<String, Object?> row) => row.values.first as double,
+        mapper: (Map<String, Object?> row) => (row.values.first as num?)?.toDouble() ?? 0.0,
         arguments: [userId]);
   }
 
@@ -634,7 +634,7 @@ class _$PracticeSessionDao extends PracticeSessionDao {
   Future<int?> getSessionCount(String userId) async {
     return _queryAdapter.query(
         'SELECT COUNT(*) FROM practice_sessions WHERE user_id = ?1',
-        mapper: (Map<String, Object?> row) => row.values.first as int,
+        mapper: (Map<String, Object?> row) => (row.values.first as num?)?.toInt() ?? 0,
         arguments: [userId]);
   }
 
@@ -801,7 +801,7 @@ class _$PronunciationResultDao extends PronunciationResultDao {
   Future<double?> getAverageAccuracy(String userId) async {
     return _queryAdapter.query(
         'SELECT AVG(accuracy_score) FROM pronunciation_results WHERE user_id = ?1',
-        mapper: (Map<String, Object?> row) => row.values.first as double,
+        mapper: (Map<String, Object?> row) => (row.values.first as num?)?.toDouble() ?? 0.0,
         arguments: [userId]);
   }
 
@@ -812,7 +812,7 @@ class _$PronunciationResultDao extends PronunciationResultDao {
   ) async {
     return _queryAdapter.query(
         'SELECT MAX(overall_score) FROM pronunciation_results WHERE user_id = ?1 AND lesson_id = ?2',
-        mapper: (Map<String, Object?> row) => row.values.first as double,
+        mapper: (Map<String, Object?> row) => (row.values.first as num?)?.toDouble() ?? 0.0,
         arguments: [userId, lessonId]);
   }
 

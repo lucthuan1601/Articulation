@@ -25,7 +25,12 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> saveUser(User user) async {
     final entity = UserMapper.toEntity(user);
-    await _userDao.insertUser(entity);
+    final existing = await _userDao.findUserById(user.id);
+    if (existing != null) {
+      await _userDao.updateUser(entity);
+    } else {
+      await _userDao.insertUser(entity);
+    }
   }
 
   @override

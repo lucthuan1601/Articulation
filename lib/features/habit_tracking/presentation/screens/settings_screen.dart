@@ -304,51 +304,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: 24),
 
-          // ── Section: Thông tin ───────────────────────────────
-          _SectionHeader(
-            icon: Icons.info_outline_rounded,
-            title: 'Thông tin',
-          ),
-          const SizedBox(height: 12),
-
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Column(
-              children: [
-                _InfoTile(
-                  icon: Icons.person_outline_rounded,
-                  label: 'Phát triển bởi',
-                  value: 'Nguyễn Khắc Minh Hiếu',
-                ),
-                Divider(
-                    height: 1,
-                    indent: 20,
-                    endIndent: 20,
-                    color: AppColors.border),
-                _InfoTile(
-                  icon: Icons.task_alt_rounded,
-                  label: 'Chức năng',
-                  value: 'Checklist 2 & 6',
-                ),
-                Divider(
-                    height: 1,
-                    indent: 20,
-                    endIndent: 20,
-                    color: AppColors.border),
-                _InfoTile(
-                  icon: Icons.code_rounded,
-                  label: 'Phiên bản',
-                  value: '1.0.0',
-                ),
-              ],
-            ),
-          ),
 
           const SizedBox(height: 32),
         ],
@@ -384,38 +340,4 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-/// Tile hiển thị thông tin dạng label - value.
-class _InfoTile extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
 
-  const _InfoTile({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      leading: Icon(icon, color: AppColors.textSecondary, size: 20),
-      title: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 14,
-          color: AppColors.textSecondary,
-        ),
-      ),
-      trailing: Text(
-        value,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
-        ),
-      ),
-    );
-  }
-}

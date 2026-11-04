@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 /// Các hằng số dùng chung toàn ứng dụng
@@ -9,6 +10,23 @@ class AppConstants {
   static const String appVersion = '1.0.0';
   static const String dbName = 'articulation.db';
   static const int dbVersion = 1;
+
+  // ── AI Server ───────────────────────────────────────────────────
+  /// Địa chỉ dịch vụ AI. Mặc định là máy tính chủ:
+  /// - Trên web: http://127.0.0.1:8787
+  /// - Trên Android emulator: http://10.0.2.2:8787
+  /// - Điện thoại thật: `flutter run --dart-define=AI_SERVER_URL=http://<ip>:8787`
+  static String get aiServerUrl {
+    const definedUrl = String.fromEnvironment('AI_SERVER_URL');
+    if (definedUrl.isNotEmpty) return definedUrl;
+    if (kIsWeb) return 'http://127.0.0.1:8787';
+    return 'http://10.0.2.2:8787';
+  }
+
+  // ── Recording ───────────────────────────────────────────────────
+  /// Giới hạn của dịch vụ AI là 30 giây, dừng sớm hơn để không bị từ chối.
+  static const int maxRecordingSeconds = 29;
+  static const int recordingSampleRate = 16000;
 
   // ── Default Values ──────────────────────────────────────────────
   static const int defaultDailyGoalMinutes = 15;
@@ -91,7 +109,7 @@ class AppHelpers {
 
   /// Format ngày dạng ngắn: "31 Th10"
   static String formatDateShort(DateTime date) {
-    return DateFormat('dd MMM', 'vi').format(date);
+    try { return DateFormat('dd MMM', 'vi').format(date); } catch (_) { return "${date.day}/${date.month}"; }
   }
 
   /// Lấy timestamp đầu ngày (00:00:00)
@@ -127,7 +145,6 @@ class AppHelpers {
 
   /// Tạo UUID v4
   static String generateId() {
-    // Sử dụng package uuid trong thực tế
     return DateTime.now().millisecondsSinceEpoch.toString();
   }
 }
